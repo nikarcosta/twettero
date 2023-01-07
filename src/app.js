@@ -29,14 +29,29 @@ app.post("/tweets", (req, res) => {
         return res.status(401).send("UNAUTHORIZED");
     }
 
+
+    const { avatar } = usuarios.find(usuario => usuario.username === username);
+
     tweets.push({
         username,
+        avatar,
         tweet
     });
+
+    
     res.send("OK");
 });
 
 
+app.get("/tweets", (req, res) => {
+
+    if(tweets.length <= 10){
+        res.send([...tweets].reverse());
+    }
+    else{
+        res.send([...tweets].reverse().splice(0,10));
+    }
+});
 
 
 const PORT = 5000;
